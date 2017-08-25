@@ -18,12 +18,12 @@ import javax.swing.JTextField;
  *
  * @author VAIO
  */
-public class inputdatacuca extends javax.swing.JFrame {
+public class inputdatacuca2 extends javax.swing.JFrame {
 
     /**
      * Creates new form inputdatacuca
      */
-    public inputdatacuca() {
+    public inputdatacuca2() {
         initComponents();
     }
     public Connection getConnection() {
@@ -66,7 +66,6 @@ public class inputdatacuca extends javax.swing.JFrame {
         txtkecangin = new javax.swing.JTextField();
         txtudara = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         tgl = new com.toedter.calendar.JDateChooser();
         jLabel10 = new javax.swing.JLabel();
         status = new javax.swing.JTextField();
@@ -141,14 +140,6 @@ public class inputdatacuca extends javax.swing.JFrame {
         });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(321, 260, 67, -1));
 
-        jButton3.setText("Update");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(321, 194, -1, -1));
-
         tgl.setDateFormatString("yyyy-MM-dd");
         getContentPane().add(tgl, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 65, 175, -1));
 
@@ -173,7 +164,7 @@ public class inputdatacuca extends javax.swing.JFrame {
         getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(256, 27, 55, -1));
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/koneksi/foto-kenapa-keindahan-senja-berbeda-beda.jpg"))); // NOI18N
-        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(-220, 0, 620, -1));
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(-220, -20, 620, 400));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -224,30 +215,6 @@ public class inputdatacuca extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        
-       try{
-            
-            Connection con = getConnection();
-            String query = "update t_cuaca set nama_kota=?,suhu=?,suhu_maks=?,suhu_min=?,kecepatan_angin=?,kelembapan=?,tekanan_udara=?,status=?,gambar=? where ID=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, txtkota.getText());
-            ps.setString(2, txtsuhu.getText());
-            ps.setString(3, txtmaks.getText());
-            ps.setString(4, txtmin.getText());
-            ps.setString(5, txtkecangin.getText());
-            ps.setString(6, txtlembap.getText());
-            ps.setString(7, txtudara.getText());
-            ps.setString(8, txtkota.getText());
-            
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Berhasil Diupdate");
-        }catch (Exception ex){
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void ytctytActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ytctytActionPerformed
         // TODO add your handling code here:
         JFileChooser jfc = new JFileChooser("C:\\Users\\VAIO\\Documents\\NetBeansProjects\\UTS\\src\\cuacagambar\\");
@@ -266,7 +233,6 @@ public class inputdatacuca extends javax.swing.JFrame {
     private javax.swing.JTextField gambar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

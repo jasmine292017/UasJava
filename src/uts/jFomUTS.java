@@ -5,6 +5,15 @@
  */
 package uts;
 
+import com.mysql.jdbc.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,6 +28,16 @@ public class jFomUTS extends javax.swing.JFrame {
     public jFomUTS() {
         initComponents();
     }
+     public Connection getConnection() {
+    
+    Connection konek;
+    try{
+        konek = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/p3_java", "root", "");
+        return konek;
+    }catch(SQLException e){
+        return null; 
+    }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,10 +51,11 @@ public class jFomUTS extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jLabel1 = new javax.swing.JLabel();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
         jLabel2 = new javax.swing.JLabel();
         txtKota = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        cmbhari = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -50,11 +70,18 @@ public class jFomUTS extends javax.swing.JFrame {
         kota = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         inibesok = new javax.swing.JLabel();
+        gambar = new javax.swing.JLabel();
+        tgl = new com.toedter.calendar.JDateChooser();
+        btngo = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        status2 = new javax.swing.JLabel();
+        status = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -65,15 +92,22 @@ public class jFomUTS extends javax.swing.JFrame {
 
         jMenuItem1.setText("jMenuItem1");
 
+        jMenuItem6.setText("jMenuItem6");
+
+        jRadioButtonMenuItem1.setSelected(true);
+        jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 102, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setFocusTraversalPolicyProvider(true);
         setLocationByPlatform(true);
         setUndecorated(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Kota");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(201, 53, -1, -1));
 
         txtKota.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,16 +119,11 @@ public class jFomUTS extends javax.swing.JFrame {
                 txtKotaKeyPressed(evt);
             }
         });
+        getContentPane().add(txtKota, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 57, 184, -1));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setForeground(new java.awt.Color(51, 102, 255));
-
-        cmbhari.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hari ini", "Besok", " " }));
-        cmbhari.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbhariActionPerformed(evt);
-            }
-        });
+        jPanel1.setOpaque(false);
 
         jLabel14.setText("Suhu Maksimum");
 
@@ -125,8 +154,20 @@ public class jFomUTS extends javax.swing.JFrame {
         inibesok.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         inibesok.setText("         ");
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cuacagambar/04n.png"))); // NOI18N
-        jLabel3.setText("Broken Clouds");
+        tgl.setDateFormatString("yyyy-MM-dd");
+
+        btngo.setText("Go");
+        btngo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btngoActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Status");
+
+        status2.setText("  ");
+
+        status.setText("  ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -134,62 +175,71 @@ public class jFomUTS extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(kota)
-                        .addGap(62, 62, 62))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(hasilsuhu)
-                                    .addComponent(jLabel3)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(269, 269, 269)
-                                .addComponent(jLabel4)))
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(inibesok, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel17)
-                                        .addComponent(jLabel18))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(kelembapan, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(udara, javax.swing.GroupLayout.Alignment.TRAILING)))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel16)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(kecangin))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel14)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
-                                    .addComponent(suhumaks))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel15)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(suhumin))))
-                        .addGap(7, 7, 7)))
-                .addComponent(cmbhari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(63, Short.MAX_VALUE))
+                        .addGap(181, 181, 181)
+                        .addComponent(kota)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(272, 272, 272)
+                        .addComponent(btngo, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(status2, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                            .addComponent(gambar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addComponent(hasilsuhu)))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(tgl, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(130, 130, 130)
+                        .addComponent(inibesok, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel17)
+                                .addComponent(jLabel18)
+                                .addComponent(jLabel3))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(kelembapan, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(udara, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(status, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel16)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(kecangin))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel14)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(suhumaks))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel15)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(suhumin))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbhari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(kota))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(inibesok, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(46, 46, 46)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(inibesok, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(kota)
+                                    .addComponent(tgl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(41, 41, 41)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
                             .addComponent(suhumaks))
@@ -208,14 +258,34 @@ public class jFomUTS extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18)
-                            .addComponent(udara))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(udara)
+                            .addComponent(status2)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
                         .addComponent(hasilsuhu)
-                        .addGap(27, 27, 27)
-                        .addComponent(jLabel3)
-                        .addGap(63, 63, 63))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(gambar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(status))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(btngo)
+                .addContainerGap())
         );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 97, 653, -1));
+
+        jButton1.setText("Close");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 0, -1, -1));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/koneksi/jhjhjh.png"))); // NOI18N
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 410));
 
         jMenu2.setText("File");
         jMenu2.addActionListener(new java.awt.event.ActionListener() {
@@ -224,16 +294,21 @@ public class jFomUTS extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem4.setText("Input");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem5.setText("Data");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem4);
-
-        jMenuItem5.setText("Data");
         jMenu2.add(jMenuItem5);
+
+        jMenuItem7.setText("Login User");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem7);
 
         jMenuBar1.add(jMenu2);
 
@@ -264,137 +339,12 @@ public class jFomUTS extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(201, 201, 201)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtKota, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(188, 188, 188))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtKota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(20, 20, 20)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtKotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKotaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtKotaActionPerformed
-
-    private void cmbhariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbhariActionPerformed
-        // TODO add your handling code here:
-        String Hari = (String) cmbhari.getSelectedItem();
-   inibesok.setText(Hari);
-   if("Hari ini".equals(inibesok.getText()) && "bandung".equals(txtKota.getText())){
-            hasilsuhu.setText("30 " + (char)0x00B0 + "C");
-            kota.setText("Cuaca di Bandung");
-            inibesok.setText("Hari ini");
-            suhumaks.setText("33.0 " + (char)0x00B0 + "C");
-            suhumin.setText("17.0 " + (char)0x00B0 + "C");
-            kecangin.setText("20.0 m/s");
-            kelembapan.setText("300.2 %");
-            udara.setText("200.2 hPa");   
-        }else if("Besok".equals(inibesok.getText()) && "bandung".equals(txtKota.getText())){
-            hasilsuhu.setText("27 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Bandung");
-         inibesok.setText("Besok");
-         suhumaks.setText("28.0 " + (char)0x00B0 + "C");
-            suhumin.setText("22.0 " + (char)0x00B0 + "C");
-            kecangin.setText("25.0 m/s");
-            kelembapan.setText("2700.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Hari ini".equals(inibesok.getText()) && "jakarta".equals(txtKota.getText())){
-            hasilsuhu.setText("35 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Jakarta");
-         inibesok.setText("Hari ini");
-         suhumaks.setText("37.5 " + (char)0x00B0 + "C");
-            suhumin.setText("30.0 " + (char)0x00B0 + "C");
-            kecangin.setText("28.0 m/s");
-            kelembapan.setText("2500.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Besok".equals(inibesok.getText()) && "jakarta".equals(txtKota.getText())){
-            hasilsuhu.setText("32 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Jakarta");
-         inibesok.setText("Besok");
-         suhumaks.setText("35.5 " + (char)0x00B0 + "C");
-            suhumin.setText("28.0 " + (char)0x00B0 + "C");
-            kecangin.setText("25.0 m/s");
-            kelembapan.setText("2400.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Hari ini".equals(inibesok.getText()) && "semarang".equals(txtKota.getText())){
-            hasilsuhu.setText("31 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Semarang");
-         inibesok.setText("Hari ini");
-         suhumaks.setText("35.5 " + (char)0x00B0 + "C");
-            suhumin.setText("28.0 " + (char)0x00B0 + "C");
-            kecangin.setText("25.0 m/s");
-            kelembapan.setText("2200.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Besok".equals(inibesok.getText()) && "semarang".equals(txtKota.getText())){
-            hasilsuhu.setText("29 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Semarang");
-         inibesok.setText("Besok");
-         suhumaks.setText("30.5 " + (char)0x00B0 + "C");
-            suhumin.setText("25.0 " + (char)0x00B0 + "C");
-            kecangin.setText("20.0 m/s");
-            kelembapan.setText("2100.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Hari ini".equals(inibesok.getText()) && "bekasi".equals(txtKota.getText())){
-            hasilsuhu.setText("31 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Bekasi");
-         inibesok.setText("Hari ini");
-         suhumaks.setText("33.5 " + (char)0x00B0 + "C");
-            suhumin.setText("24.0 " + (char)0x00B0 + "C");
-            kecangin.setText("20.0 m/s");
-            kelembapan.setText("2100.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Besok".equals(inibesok.getText()) && "bekasi".equals(txtKota.getText())){
-            hasilsuhu.setText("29 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Bekasi");
-         inibesok.setText("Besok");
-         suhumaks.setText("31.5 " + (char)0x00B0 + "C");
-            suhumin.setText("23.0 " + (char)0x00B0 + "C");
-            kecangin.setText("20.0 m/s");
-            kelembapan.setText("2100.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Hari ini".equals(inibesok.getText()) && "medan".equals(txtKota.getText())){
-            hasilsuhu.setText("34 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Medan");
-         inibesok.setText("Hari ini");
-         suhumaks.setText("37.5 " + (char)0x00B0 + "C");
-            suhumin.setText("27.0 " + (char)0x00B0 + "C");
-            kecangin.setText("24.0 m/s");
-            kelembapan.setText("2000.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Besok".equals(inibesok.getText()) && "medan".equals(txtKota.getText())){
-            hasilsuhu.setText("32 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Medan");
-         inibesok.setText("Besok");
-         suhumaks.setText("30.5 " + (char)0x00B0 + "C");
-            suhumin.setText("21.0 " + (char)0x00B0 + "C");
-            kecangin.setText("25.0 m/s");
-            kelembapan.setText("2100.4 %");
-            udara.setText("220.2 hPa");   
-        }
-   
-    }//GEN-LAST:event_cmbhariActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
@@ -413,107 +363,8 @@ public class jFomUTS extends javax.swing.JFrame {
 
     private void txtKotaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKotaKeyPressed
         // TODO add your handling code here:
-   String Hari = (String) cmbhari.getSelectedItem();
-   inibesok.setText(Hari);
-   if("Hari ini".equals(inibesok.getText()) && "bandung".equals(txtKota.getText())){
-            hasilsuhu.setText("30 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Bandung");
-         inibesok.setText("Hari ini");
-         suhumaks.setText("33.0 " + (char)0x00B0 + "C");
-            suhumin.setText("17.0 " + (char)0x00B0 + "C");
-            kecangin.setText("20.0 m/s");
-            kelembapan.setText("300.2 %");
-            udara.setText("200.2 hPa");   
-        }else if("Besok".equals(inibesok.getText()) && "bandung".equals(txtKota.getText())){
-            hasilsuhu.setText("27 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Bandung");
-         inibesok.setText("Besok");
-         suhumaks.setText("28.0 " + (char)0x00B0 + "C");
-            suhumin.setText("22.0 " + (char)0x00B0 + "C");
-            kecangin.setText("25.0 m/s");
-            kelembapan.setText("2700.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Hari ini".equals(inibesok.getText()) && "jakarta".equals(txtKota.getText())){
-            hasilsuhu.setText("35 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Jakarta");
-         inibesok.setText("Hari ini");
-         suhumaks.setText("37.5 " + (char)0x00B0 + "C");
-            suhumin.setText("30.0 " + (char)0x00B0 + "C");
-            kecangin.setText("28.0 m/s");
-            kelembapan.setText("2500.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Besok".equals(inibesok.getText()) && "jakarta".equals(txtKota.getText())){
-            hasilsuhu.setText("32 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Jakarta");
-         inibesok.setText("Besok");
-         suhumaks.setText("35.5 " + (char)0x00B0 + "C");
-            suhumin.setText("28.0 " + (char)0x00B0 + "C");
-            kecangin.setText("25.0 m/s");
-            kelembapan.setText("2400.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Hari ini".equals(inibesok.getText()) && "semarang".equals(txtKota.getText())){
-            hasilsuhu.setText("31 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Semarang");
-         inibesok.setText("Hari ini");
-         suhumaks.setText("35.5 " + (char)0x00B0 + "C");
-            suhumin.setText("28.0 " + (char)0x00B0 + "C");
-            kecangin.setText("25.0 m/s");
-            kelembapan.setText("2200.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Besok".equals(inibesok.getText()) && "semarang".equals(txtKota.getText())){
-            hasilsuhu.setText("29 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Semarang");
-         inibesok.setText("Besok");
-         suhumaks.setText("30.5 " + (char)0x00B0 + "C");
-            suhumin.setText("25.0 " + (char)0x00B0 + "C");
-            kecangin.setText("20.0 m/s");
-            kelembapan.setText("2100.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Hari ini".equals(inibesok.getText()) && "bekasi".equals(txtKota.getText())){
-            hasilsuhu.setText("31 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Bekasi");
-         inibesok.setText("Hari ini");
-         suhumaks.setText("33.5 " + (char)0x00B0 + "C");
-            suhumin.setText("24.0 " + (char)0x00B0 + "C");
-            kecangin.setText("20.0 m/s");
-            kelembapan.setText("2100.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Besok".equals(inibesok.getText()) && "bekasi".equals(txtKota.getText())){
-            hasilsuhu.setText("29 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Bekasi");
-         inibesok.setText("Besok");
-         suhumaks.setText("31.5 " + (char)0x00B0 + "C");
-            suhumin.setText("23.0 " + (char)0x00B0 + "C");
-            kecangin.setText("20.0 m/s");
-            kelembapan.setText("2100.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Hari ini".equals(inibesok.getText()) && "medan".equals(txtKota.getText())){
-            hasilsuhu.setText("34 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Medan");
-         inibesok.setText("Hari ini");
-         suhumaks.setText("37.5 " + (char)0x00B0 + "C");
-            suhumin.setText("27.0 " + (char)0x00B0 + "C");
-            kecangin.setText("24.0 m/s");
-            kelembapan.setText("2000.4 %");
-            udara.setText("200.2 hPa");   
-        }else if("Besok".equals(inibesok.getText()) && "medan".equals(txtKota.getText())){
-            hasilsuhu.setText("32 " + (char)0x00B0 + "C");
-          kota.setText("Cuaca di Medan");
-         inibesok.setText("Besok");
-         suhumaks.setText("30.5 " + (char)0x00B0 + "C");
-            suhumin.setText("21.0 " + (char)0x00B0 + "C");
-            kecangin.setText("25.0 m/s");
-            kelembapan.setText("2100.4 %");
-            udara.setText("220.2 hPa");   
-        }
+   
     }//GEN-LAST:event_txtKotaKeyPressed
-
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        // TODO add your handling code here:
-        inputdatacuca jj = new inputdatacuca();
-        jj.setVisible(true);
-        
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
         // TODO add your handling code here:
@@ -521,15 +372,68 @@ public class jFomUTS extends javax.swing.JFrame {
         kk.setVisible(true);
     }//GEN-LAST:event_jMenu2ActionPerformed
 
+    private void btngoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngoActionPerformed
+        // TODO add your handling code here:
+       try {
+            Connection konek = getConnection();
+            String go = txtKota.getText();
+            SimpleDateFormat fmt = new SimpleDateFormat("YYYY-MM-dd");
+            String tgl1 = fmt.format(tgl.getDate());
+
+            Statement st = konek.createStatement();
+            String query = "SELECT * FROM t_cuaca WHERE nama_kota = '" + go +"' "
+            + "AND date = '" + tgl1 + "%' "
+            + "LIMIT 1";
+            ResultSet rs = st.executeQuery(query);
+            while(rs.next()){
+                
+                SimpleDateFormat fmt2 = new SimpleDateFormat("dd MMMM YYYY", Locale.forLanguageTag("Id"));
+                hasilsuhu.setText(rs.getString("suhu")+" "+(char)0x00B0+" C");
+                kota.setText("Cuaca di "+rs.getString("nama_kota"));
+                suhumaks.setText(rs.getString("suhu_maks")+" "+(char)0x00B0+" C");
+                suhumin.setText(rs.getString("suhu_min")+" "+(char)0x00B0+" C");
+                kecangin.setText(rs.getString("kecepatan_angin")+" m/s");
+                kelembapan.setText(rs.getString("kelembapan")+" %");
+                udara.setText(rs.getString("tekanan_udara")+" hPa");
+                status.setText(rs.getString("status"));
+                String gambar2 = rs.getString("gambar");
+                gambar.setIcon(new javax.swing.ImageIcon("C:\\Users\\VAIO\\Documents\\NetBeansProjects\\UTS\\src\\cuacagambar\\"+gambar2));
+                status2.setText(rs.getString("status"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(jFomUTS.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btngoActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        FrmData frmData = new FrmData();
+        frmData.setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        FormUser input = new FormUser();
+       input.setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> cmbhari;
+    private javax.swing.JButton btngo;
+    private javax.swing.JLabel gambar;
     private javax.swing.JLabel hasilsuhu;
     private javax.swing.JLabel inibesok;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -539,6 +443,7 @@ public class jFomUTS extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -546,14 +451,19 @@ public class jFomUTS extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JLabel kecangin;
     private javax.swing.JLabel kelembapan;
     private javax.swing.JLabel kota;
+    private javax.swing.JLabel status;
+    private javax.swing.JLabel status2;
     private javax.swing.JLabel suhumaks;
     private javax.swing.JLabel suhumin;
+    private com.toedter.calendar.JDateChooser tgl;
     private javax.swing.JTextField txtKota;
     private javax.swing.JLabel udara;
     // End of variables declaration//GEN-END:variables
